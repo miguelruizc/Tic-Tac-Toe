@@ -1,5 +1,21 @@
 //GameController
 //Gameboard
+function Gameboard() {
+    const rows = 5;
+    const columns = 4;
+    let board = new Array(rows);
+
+    for(let i = 0; i < rows; i++) {
+        board[i] = new Array(columns);
+        for(let j = 0; j < columns; j++) {
+            board[i][j] = "0";
+        }
+    }
+
+    console.table(board);
+}
+
+Gameboard();
 
 //Cell
 function Cell() {
