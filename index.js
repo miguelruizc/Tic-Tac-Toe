@@ -7,22 +7,6 @@ function Board() {
     const columns = 3;
     let board = new Array(rows);
 
-    //Cell object
-    function Cell() {
-        let value = '0';
-    
-        const setValue = (newValue) => {
-            value = newValue;
-        };
-    
-        const getValue = () => value;
-    
-        return {
-            setValue,
-            getValue
-        };
-    }
-
     //Populate board w/ Cells
     for(let i = 0; i < rows; i++) {
         board[i] = new Array(columns);
@@ -58,10 +42,37 @@ function Board() {
     return {render, setCell};
 }
 
+//Cell object
+function Cell() {
+    let value = '0';
+
+    const setValue = (newValue) => {
+        value = newValue;
+    };
+
+    const getValue = () => value;
+
+    return {
+        setValue,
+        getValue
+    };
+}
+
+//Player object
+function Player(name, token) {
+    this.name = name;
+    this.token = token;
+    
+    const getName = () => name;
+    const getToken = () => token;
+    
+    return {getName, getToken};
+} 
+
+let player1 = Player("Antonio", "W");
 let board = Board();
-board.render();
-board.setCell(2,2,"X");
+board.setCell(2,2,player1.getToken());
 board.render();
 
 
-//Player
+
