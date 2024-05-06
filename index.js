@@ -128,4 +128,7 @@ for(let i=0; i < 5; i++) {
     g.playRound();
 }
 
+//TO-DO 
+    //- Complete playRound() to check used cells
+    //- Implement check winner to use after each round
 
