@@ -77,15 +77,35 @@ function GameController() {
     let activePlayer = players[0];
 
     const playRound = () => {
-        
+        // Get input for row & column
+        let row, column;
+        // Row
+        do {
+            let input = prompt(`${activePlayer.getName()} turn, enter row (0-2): `);
+            row = parseInt(input);
+            if(isNaN(row) || row < 0 || row > 2) {
+                console.log("Invalid input, enter a number between 0-2");
+            }
+        } while(row < 0 || row > 2);
+        //Column
+        do {
+            let input = prompt(`${activePlayer.getName()} turn, enter column (0-2): `);
+            column= parseInt(input);
+            if(isNaN(column) || column < 0 || column > 2) {
+                console.log("Invalid input, enter a number between 0-2");
+            }
+        } while(column < 0 || column > 2);
+
+        board.setCell(row, column, activePlayer.getToken());
+        switchActivePlayer();
     }
 
     const switchActivePlayer = () => {
-
+        activePlayer = (activePlayer === players[0]) ? players[1] : players[0];
     }
 
     const render = () => {
-
+        board.render();
     }
 
     const isWon = () => {
@@ -96,13 +116,16 @@ function GameController() {
 
     }
 
-    return {};
+    return {
+        playRound,
+        render,
+    };
 }
 
-let player1 = Player("Antonio", "W");
-let board = Board();
-board.setCell(2,2,player1.getToken());
-board.render();
-
+let g = GameController();
+for(let i=0; i < 5; i++) {
+    g.render();
+    g.playRound();
+}
 
 
