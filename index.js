@@ -41,11 +41,26 @@ function Board() {
         }
     }
 
+    //Set cell method
+    const setCell = function(row, column, character) {
+        // Make sure coordinates are not out of bound
+        if(row < 0 || row > (rows-1) ||
+         column < 0 || column > (columns-1)) {
+            console.log("Invalid coordinates, out of bound");
+            return;
+         }
+         else {
+            board[row][column].setValue(character);
+         }
+    }
+
     //Return public members
-    return {render};
+    return {render, setCell};
 }
 
 let board = Board();
+board.render();
+board.setCell(2,2,"X");
 board.render();
 
 
