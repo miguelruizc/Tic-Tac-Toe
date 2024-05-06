@@ -60,11 +60,11 @@ function Cell() {
 
 //Player object
 function Player(name, token) {
-    this.name = name;
-    this.token = token;
+    const _name = name;
+    const _token = token;
     
-    const getName = () => name;
-    const getToken = () => token;
+    const getName = () => _name;
+    const getToken = () => _token;
     
     return {getName, getToken};
 } 
@@ -72,6 +72,29 @@ function Player(name, token) {
 //GameController object 
 function GameController() {
     const board = Board();
+    const players = [Player("Miguel", "X"), Player("Maria", "O")];
+    
+    let activePlayer = players[0];
+
+    const playRound = () => {
+        
+    }
+
+    const switchActivePlayer = () => {
+
+    }
+
+    const render = () => {
+
+    }
+
+    const isWon = () => {
+
+    }
+
+    const getWinner = () => {
+
+    }
 
     return {};
 }
