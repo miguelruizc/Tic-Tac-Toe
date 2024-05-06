@@ -1,5 +1,3 @@
-//GameController
-
 //Board object
 function Board() {
     //Board attributes
@@ -17,12 +15,14 @@ function Board() {
 
     //Render Method
     const render = function() {
+        let boardString = "";
         for(let i = 0; i < rows; i++) {
             for(let j = 0; j < columns; j++) {
-                console.log(board[i][j].getValue()+" ");
+                boardString += board[i][j].getValue()+" ";
             }
-            console.log("\n");
+            boardString += "\n";
         }
+        console.log(boardString);
     }
 
     //Set cell method
@@ -68,6 +68,13 @@ function Player(name, token) {
     
     return {getName, getToken};
 } 
+
+//GameController object 
+function GameController() {
+    const board = Board();
+
+    return {};
+}
 
 let player1 = Player("Antonio", "W");
 let board = Board();
