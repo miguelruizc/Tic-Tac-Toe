@@ -1,41 +1,52 @@
 //GameController
-//Gameboard
-function Gameboard() {
-    const rows = 5;
-    const columns = 4;
+
+//Board object
+function Board() {
+    //Board attributes
+    const rows = 3;
+    const columns = 3;
     let board = new Array(rows);
 
+    //Cell object
+    function Cell() {
+        let value = '0';
+    
+        const setValue = (newValue) => {
+            value = newValue;
+        };
+    
+        const getValue = () => value;
+    
+        return {
+            setValue,
+            getValue
+        };
+    }
+
+    //Populate board w/ Cells
     for(let i = 0; i < rows; i++) {
         board[i] = new Array(columns);
         for(let j = 0; j < columns; j++) {
-            board[i][j] = "0";
+            board[i][j] = Cell();
         }
     }
 
-    console.table(board);
+    //Render Method
+    const render = function() {
+        for(let i = 0; i < rows; i++) {
+            for(let j = 0; j < columns; j++) {
+                console.log(board[i][j].getValue()+" ");
+            }
+            console.log("\n");
+        }
+    }
+
+    //Return public members
+    return {render};
 }
 
-Gameboard();
+let board = Board();
+board.render();
 
-//Cell
-function Cell() {
-    // Cell: Represents a cell that holds a value, '0' by default
-    let value = '0';
 
-    const setValue = (newValue) => {
-        value = newValue;
-    };
-
-    const getValue = () => value;
-
-    return {
-        setValue,
-        getValue
-    };
-}
 //Player
-
-let c = Cell();
-console.log(c.getValue());
-c.setValue("X");
-console.log(c.getValue());
