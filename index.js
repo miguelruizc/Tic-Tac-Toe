@@ -38,13 +38,26 @@ function Board() {
          }
     }
 
+    //Get cell method
+    const getCell = function(row, column) {
+         // Make sure coordinates are not out of bound
+         if(row < 0 || row > (rows-1) ||
+         column < 0 || column > (columns-1)) {
+            console.log("Invalid coordinates, out of bound");
+            return;
+         }
+         else {
+            return board[row][column].getValue();
+         }
+    }
+
     //Return public members
-    return {render, setCell};
+    return {render, setCell, getCell};
 }
 
 //Cell object
 function Cell() {
-    let value = '0';
+    let value = '#';
 
     const setValue = (newValue) => {
         value = newValue;
@@ -96,6 +109,7 @@ function GameController() {
             }
         } while(column < 0 || column > 2);
 
+        console.log(board.getCell(row, column));
         board.setCell(row, column, activePlayer.getToken());
         switchActivePlayer();
     }
