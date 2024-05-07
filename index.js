@@ -250,13 +250,13 @@ function GameController() {
 }
 
 //DOMController object
-function DOMController() {
+function DOMController(gameController) {
     
     //DOM elements
     let gameInfoDiv = document.getElementById("game-info");
     let boardDiv = document.getElementById("board");
 
-    const updateDOM = function(gameController) {
+    const updateDOM = function() {
         //Clear DOM, by setting .board text content to an empty string
         gameInfoDiv.textContent = "";
         boardDiv.textContent = "";
@@ -281,15 +281,21 @@ function DOMController() {
                 button.setAttribute("id", `${i}-${j}`);
                 button.setAttribute("class", "cell");
                 button.innerText = board.getCell(i, j);
-                //Add event listener
-                button.addEventListener("click", function() {
-                    console.log("button clicked");
-                });
+                //Add click listener to each button
+                button.addEventListener("click", clickHandler);
                 //Append
                 boardDiv.appendChild(button);
             }
             boardDiv.appendChild(document.createElement("br"));
         }
+    }
+
+    const clickHandler = function(event) { 
+        let buttonIndex = event.target.id.split("-"); //e.g. id="1-1" -> [1,1]
+        let rowIndex = buttonIndex[0];
+        let columnIndex = buttonIndex[1];
+
+        gameController.playRound();
     }
 
     return {
@@ -299,7 +305,7 @@ function DOMController() {
 
 // Program start here: 
 let g = GameController();
-let d = DOMController();
+let d = DOMController(g);
 
 //Game loop
 // do {
