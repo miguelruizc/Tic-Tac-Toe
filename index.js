@@ -249,7 +249,7 @@ function GameController() {
     };
 }
 
-//ScreenController object
+//DOMController object
 function DOMController() {
     
     //DOM elements
@@ -281,10 +281,14 @@ function DOMController() {
                 button.setAttribute("id", `${i}-${j}`);
                 button.setAttribute("class", "cell");
                 button.innerText = board.getCell(i, j);
+                //Add event listener
+                button.addEventListener("click", function() {
+                    console.log("button clicked");
+                });
                 //Append
                 boardDiv.appendChild(button);
             }
-            boardDiv.innerHTML += "<br>";
+            boardDiv.appendChild(document.createElement("br"));
         }
     }
 
