@@ -159,6 +159,23 @@ function GameController() {
         }
 
         //Check columns
+        for(let i = 0; i < 3; i++){
+            let columnString = ""
+
+            for(let j = 0; j < 3; j++){
+                columnString += board.getCell(j, i);
+            }
+
+            console.log("Debug: columnString: " + columnString);
+            if(columnString === player0WinString){
+                console.log("Player0 wins, token: " + players[0].getToken());
+                return "Player0 wins";
+            }
+            else if(columnString === player1WinString){
+                console.log("Player1 wins, token: " + players[1].getToken());
+                return "Player1 wins";
+            }
+        }
         //Check diagonals
 
         // No winner found
