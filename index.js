@@ -82,6 +82,29 @@ function Player(name, token) {
     return {getName, getToken};
 } 
 
+//ScreenController object
+function DOMController() {
+    
+    const updateDOM = function() {
+        //Clear DOM, by setting .board text content to an empty string
+        //Get up-to-date board
+        //Get up-to-date active player
+        //Render active player in .game-info
+        //Render board
+            // as a grid of buttons
+            // set click event handler for each button
+    }
+
+    const clickHandlerBoard = function() {  
+        //Handle click by sending information to to GameController
+    }
+
+    return {
+        updateDOM,
+        clickHandlerBoard,
+    };
+}
+
 //GameController object 
 function GameController() {
     const board = Board();
