@@ -51,8 +51,22 @@ function Board() {
          }
     }
 
+    const getNumberOfRows = () => {
+        return rows;
+    }
+
+    const getNumberOfColumns = () => {
+        return columns;
+    }
+
     //Return public members
-    return {render, setCell, getCell};
+    return {
+        render, 
+        setCell,
+        getCell,
+        getNumberOfRows,
+        getNumberOfColumns,
+    };
 }
 
 //Cell object
@@ -81,29 +95,6 @@ function Player(name, token) {
     
     return {getName, getToken};
 } 
-
-//ScreenController object
-function DOMController() {
-    
-    const updateDOM = function() {
-        //Clear DOM, by setting .board text content to an empty string
-        //Get up-to-date board
-        //Get up-to-date active player
-        //Render active player in .game-info
-        //Render board
-            // as a grid of buttons
-            // set click event handler for each button
-    }
-
-    const clickHandlerBoard = function() {  
-        //Handle click by sending information to to GameController
-    }
-
-    return {
-        updateDOM,
-        clickHandlerBoard,
-    };
-}
 
 //GameController object 
 function GameController() {
@@ -241,21 +232,76 @@ function GameController() {
         return _gameWon;
     }
 
+    const getBoard = () => {
+        return board;
+    }
+
+    const getActivePlayer = () => {
+        return activePlayer;
+    }
+
     return {
         playRound,
         render,
         isWon,
+        getBoard,
+        getActivePlayer,
     };
 }
 
-let playGame = (function(){
-    let g = GameController();
+//ScreenController object
+function DOMController() {
     
-    do {
-        g.render();
-        g.playRound();
-    } while (!g.isWon());
+    //DOM elements
+    let gameInfoDiv = document.getElementById("game-info");
+    let boardDiv = document.getElementById("board");
 
-})();
+    const updateDOM = function(gameController) {
+        //Clear DOM, by setting .board text content to an empty string
+        gameInfoDiv.textContent = "";
+        boardDiv.textContent = "";
 
+        //Get up-to-date board
+        let board = gameController.getBoard();
+
+        //Get up-to-date active player
+        let activePlayer = gameController.getActivePlayer();
+
+        //Render active player in #game-info
+        gameInfoDiv.textContent = `Turn: ${activePlayer.getName()}(${activePlayer.getToken()})`;
+        
+        //Render board with buttons
+        let rows = board.getNumberOfRows();
+        let columns = board.getNumberOfColumns();
+
+        for(let i = 0; i < rows; i++) {
+            for(let j = 0; j < columns; j++) {
+                //Create button w/cell info
+                let button = document.createElement("button");
+                button.setAttribute("id", `${i}-${j}`);
+                button.setAttribute("class", "cell");
+                button.innerText = board.getCell(i, j);
+                //Append
+                boardDiv.appendChild(button);
+            }
+            boardDiv.innerHTML += "<br>";
+        }
+    }
+
+    return {
+        updateDOM,
+    };
+}
+
+// Program start here: 
+let g = GameController();
+let d = DOMController();
+
+//Game loop
+// do {
+//     g.render();
+//     g.playRound();
+// } while (!g.isWon());
+
+d.updateDOM(g);
 
