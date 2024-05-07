@@ -122,6 +122,7 @@ function GameController() {
       
         // Play move & switch player
         board.setCell(row, column, activePlayer.getToken());
+        console.log(checkWinner());
         switchActivePlayer();
     }
 
@@ -133,8 +134,36 @@ function GameController() {
         board.render();
     }
 
-    const isWon = () => {
+    const checkWinner = () => {
+        //Board 3x3 & win condition is 3 back to back of the same token (e.g. "XXX")
+        let player0WinString = ""+ players[0].getToken() + players[0].getToken() + players[0].getToken(); 
+        let player1WinString = ""+ players[1].getToken() + players[1].getToken() + players[1].getToken(); 
 
+        //Check rows
+        for(let i = 0; i < 3; i++){
+            let rowString = "";
+
+            for(let j = 0; j < 3; j++){
+                rowString += board.getCell(i,j);    
+            }
+
+            console.log("Debug: rowString: " + rowString);
+            if(rowString === player0WinString){
+                console.log("Player0 wins, token: " + players[0].getToken());
+                return "Player0 wins";
+            }
+            else if(rowString === player1WinString){
+                console.log("Player1 wins, token: " + players[1].getToken());
+                return "Player1 wins";
+            }
+        }
+
+        //Check columns
+        //Check diagonals
+
+        // No winner found
+        console.log("No winner found");
+        return "No winner found";
     }
 
     const getWinner = () => {
@@ -154,6 +183,5 @@ for(let i=0; i < 5; i++) {
 }
 
 //TO-DO 
-    //- Complete playRound() to check used cells
     //- Implement check winner to use after each round
 
