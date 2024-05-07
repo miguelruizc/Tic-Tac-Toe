@@ -88,6 +88,7 @@ function GameController() {
     const players = [Player("Miguel", "X"), Player("Maria", "O")];
     
     let activePlayer = players[0];
+    let _winner = undefined;
 
     const playRound = () => {
         // Get input for row & column
@@ -122,7 +123,9 @@ function GameController() {
       
         // Play move & switch player
         board.setCell(row, column, activePlayer.getToken());
-        console.log(checkWinner());
+        if(checkWinner() === true) {
+            console.log("Winner: "+ getWinner());
+        }
         switchActivePlayer();
     }
 
@@ -147,14 +150,13 @@ function GameController() {
                 rowString += board.getCell(i,j);    
             }
 
-            console.log("Debug: rowString: " + rowString);
             if(rowString === player0WinString){
-                console.log("Player0 wins, token: " + players[0].getToken());
-                return "Player0 wins";
+                _winner = players[0];
+                return true;
             }
             else if(rowString === player1WinString){
-                console.log("Player1 wins, token: " + players[1].getToken());
-                return "Player1 wins";
+                _winner = players[1];
+                return true;
             }
         }
 
@@ -166,14 +168,13 @@ function GameController() {
                 columnString += board.getCell(j, i);
             }
 
-            console.log("Debug: columnString: " + columnString);
             if(columnString === player0WinString){
-                console.log("Player0 wins, token: " + players[0].getToken());
-                return "Player0 wins";
+                _winner = players[0];
+                return true;
             }
             else if(columnString === player1WinString){
-                console.log("Player1 wins, token: " + players[1].getToken());
-                return "Player1 wins";
+                _winner = players[1];
+                return true;
             }
         }
         
@@ -181,33 +182,30 @@ function GameController() {
         let diagonal1String = "" + board.getCell(0,0) + board.getCell(1,1) + board.getCell(2,2);
         let diagonal2String = "" + board.getCell(2,0) + board.getCell(1,1) + board.getCell(2,0);
             //Diagonal 1
-            console.log("Debug: diagonal1String: " + diagonal1String);
             if(diagonal1String === player0WinString){
-                console.log("Player0 wins, token: " + players[0].getToken());
-                return "Player0 wins";
+                _winner = players[0];
+                return true;
             }
             else if(diagonal1String === player1WinString){
-                console.log("Player1 wins, token: " + players[1].getToken());
-                return "Player1 wins";
+                _winner = players[1];
+                return true;
             }
             //Diagonal 2
-            console.log("Debug: diagonal2String: " + diagonal2String);
             if(diagonal2String === player0WinString){
-                console.log("Player0 wins, token: " + players[0].getToken());
-                return "Player0 wins";
+                _winner = players[0];
+                return true;
             }
             else if(diagonal2String === player1WinString){
-                console.log("Player1 wins, token: " + players[1].getToken());
-                return "Player1 wins";
+                _winner = players[1];
+                return true;
             }
             
         // No winner found
-        // console.log("No winner found");
-        return "No winner found";
+        return false;
     }
 
     const getWinner = () => {
-
+        return _winner.getName();
     }
 
     return {
