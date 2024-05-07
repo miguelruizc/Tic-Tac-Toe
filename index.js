@@ -89,6 +89,7 @@ function GameController() {
     
     let activePlayer = players[0];
     let _winner = undefined;
+    let _gameWon = false;
 
     const playRound = () => {
         // Get input for row & column
@@ -124,6 +125,8 @@ function GameController() {
         // Play move & switch player
         board.setCell(row, column, activePlayer.getToken());
         if(checkWinner() === true) {
+            _gameWon = true;
+            render();
             console.log("Winner: "+ getWinner());
         }
         switchActivePlayer();
@@ -205,21 +208,31 @@ function GameController() {
     }
 
     const getWinner = () => {
-        return _winner.getName();
+        if(_gameWon)
+            return _winner.getName();
+        else
+            return "Winner not found";
+    }
+
+    const isWon = () => {
+        return _gameWon;
     }
 
     return {
         playRound,
         render,
+        isWon,
     };
 }
 
-let g = GameController();
-for(let i=0; i < 5; i++) {
-    g.render();
-    g.playRound();
-}
+let playGame = (function(){
+    let g = GameController();
+    
+    do {
+        g.render();
+        g.playRound();
+    } while (!g.isWon());
 
-//TO-DO 
-    //- Implement check winner to use after each round
+})();
+
 
