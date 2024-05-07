@@ -176,10 +176,33 @@ function GameController() {
                 return "Player1 wins";
             }
         }
-        //Check diagonals
-
+        
+        //Check diagonals (manually set for a 3x3 board)
+        let diagonal1String = "" + board.getCell(0,0) + board.getCell(1,1) + board.getCell(2,2);
+        let diagonal2String = "" + board.getCell(2,0) + board.getCell(1,1) + board.getCell(2,0);
+            //Diagonal 1
+            console.log("Debug: diagonal1String: " + diagonal1String);
+            if(diagonal1String === player0WinString){
+                console.log("Player0 wins, token: " + players[0].getToken());
+                return "Player0 wins";
+            }
+            else if(diagonal1String === player1WinString){
+                console.log("Player1 wins, token: " + players[1].getToken());
+                return "Player1 wins";
+            }
+            //Diagonal 2
+            console.log("Debug: diagonal2String: " + diagonal2String);
+            if(diagonal2String === player0WinString){
+                console.log("Player0 wins, token: " + players[0].getToken());
+                return "Player0 wins";
+            }
+            else if(diagonal2String === player1WinString){
+                console.log("Player1 wins, token: " + players[1].getToken());
+                return "Player1 wins";
+            }
+            
         // No winner found
-        console.log("No winner found");
+        // console.log("No winner found");
         return "No winner found";
     }
 
