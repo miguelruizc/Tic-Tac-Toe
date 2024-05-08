@@ -337,8 +337,23 @@ function DOMController(gameController) {
         updateDOM();
     }
 
+    const createPlayAgainButton = () => {
+        // Create element
+        let button = document.createElement("button");
+        button.setAttribute("class", "playAgain");
+        button.innerText = "Play again";
+        // Add event listener
+        button.addEventListener("click", function(){
+            console.log("Play again clicked");
+        });
+        //Append
+        const container = document.getElementById("container");
+        container.appendChild(button);
+    }
+
     return {
         updateDOM,
+        createPlayAgainButton,
     };
 }
 
@@ -347,3 +362,4 @@ let g = GameController();
 let d = DOMController(g);
 
 d.updateDOM(g);
+d.createPlayAgainButton();
