@@ -71,7 +71,7 @@ function Board() {
 
 //Cell object
 function Cell() {
-    let value = '#';
+    let value = '\u00A0';
 
     const setValue = (newValue) => {
         value = newValue;
@@ -99,7 +99,7 @@ function Player(name, token) {
 //GameController object 
 function GameController() {
     const board = Board();
-    const players = [Player("Miguel", "X"), Player("Maria", "O")];
+    const players = [Player("Player 1", "X"), Player("Player 2", "O")];
     
     let activePlayer = players[0];
     let _winner = undefined;
@@ -114,7 +114,7 @@ function GameController() {
 
         //Check if cell is not empty
         if(board.getCell(row, column) === players[0].getToken() || board.getCell(row, column) === players[1].getToken()) {
-            console.log("Invalid cell, choose an empty (#) position");
+            console.log("Invalid cell, choose an empty position");
             return;
         }
         
@@ -228,7 +228,7 @@ function GameController() {
             let flag = true;
             for(let i = 0; i < 3; i++) {
                 for(let j = 0; j < 3; j++) {
-                    if(board.getCell(i, j) === "#") 
+                    if(board.getCell(i, j) === '\u00A0') 
                         flag = false;
                 }
             }
