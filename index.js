@@ -103,6 +103,7 @@ function GameController() {
     
     let activePlayer = players[0];
     let _winner = undefined;
+    let _winnerCells = {row1:0,col1:0,row2:0,col2:0,row3:0,col3:0};
     let _gameCompleted = false;
     let _gameTied = false;
     let _gameWon = false;
@@ -269,6 +270,65 @@ function GameController() {
     const getActivePlayer = () => {
         return activePlayer;
     }
+    
+    const getWinnerCells = () => {
+        if(_gameWon) {  
+            let array = new Array();
+
+            // check rows
+            for(let i = 0; i < 3; i++){
+
+                let counter = 0;
+                
+                for(let j = 0; j < 3; j++){
+                    if(board.getCell(i, j) === _winner.getToken()){
+                        counter++;
+                        array.push({row: i, col: j});
+                    }
+                    else {
+                        array = [];
+                        break;
+                    }
+                }
+
+                if(counter === 3){
+                    return array;
+                } 
+            }
+            // check columns
+            for(let i = 0; i < 3; i++){
+
+                let counter = 0;
+                
+                for(let j = 0; j < 3; j++){
+                    if(board.getCell(j, i) === _winner.getToken()){
+                        counter++;
+                        array.push({row: j, col: i});
+                    }
+                    else {
+                        array = [];
+                        break;
+                    }
+                }
+
+                if(counter === 3){
+                    return array;
+                } 
+            }
+            
+            //Check diagonals (manually set for a 3x3 board)
+            //Diagonal 1
+            if(_winner.getToken() === board.getCell(0,0) && _winner.getToken() === board.getCell(1,1)
+                && _winner.getToken() === board.getCell(2,2)) {
+                    return [{row: 0, col: 0},{row: 1, col: 1},{row: 2, col: 2}]
+                }
+            //Diagonal 2
+            if(_winner.getToken() === board.getCell(2,0) && _winner.getToken() === board.getCell(1,1)
+                && _winner.getToken() === board.getCell(0,2)) {
+                    return [{row: 2, col: 0},{row: 1, col: 1},{row: 0, col: 2}]
+                }
+        }
+    }
 
     return {
         playRound,
@@ -278,6 +338,7 @@ function GameController() {
         getWinner,
         getBoard,
         getActivePlayer,
+        getWinnerCells,
     };
 }
 
@@ -332,6 +393,8 @@ function DOMController(gameController) {
             }
             boardDiv.appendChild(document.createElement("br"));
         }
+
+        markWinnerCells();
     }
 
     const clickHandler = function(event) { 
@@ -360,9 +423,27 @@ function DOMController(gameController) {
         container.appendChild(button);
     }
 
+    const markWinnerCells = () => {
+        // if the game is won, 
+        if(gameController.isWon()){
+            // find the coordinates of the cells form the winner pattern
+            // Expected array format: [{row: 0, col: 0},{row: 0, col: 0},{row: 0, col: 0}]
+            let winnerCells = gameController.getWinnerCells(); 
+            // give .winner class
+            let cell1 = document.getElementById(`${winnerCells[0].row}-${winnerCells[0].col}`);
+            cell1.setAttribute("class", "cell winner");
+            let cell2 = document.getElementById(`${winnerCells[1].row}-${winnerCells[1].col}`);
+            cell2.setAttribute("class", "cell winner");
+            let cell3 = document.getElementById(`${winnerCells[2].row}-${winnerCells[2].col}`);
+            cell3.setAttribute("class", "cell winner");
+
+        }
+    }
+
     return {
         updateDOM,
         createPlayAgainButton,
+        markWinnerCells,
     };
 }
 

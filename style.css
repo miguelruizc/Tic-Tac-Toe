@@ -42,3 +42,7 @@ body {
 #playAgain:hover {
     background-color: #0056b3;
 }
+
+.winner {
+    outline: 1px solid red;
+}
