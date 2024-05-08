@@ -107,37 +107,17 @@ function GameController() {
     let _gameTied = false;
     let _gameWon = false;
 
-    const playRound = () => {
+    const playRound = (x, y) => {
         // Get input for row & column
-        let row, column;
+        let row = x;
+        let column = y;
 
-        do {
-            // Row
-            do {
-                let input = prompt(`${activePlayer.getName()} turn, enter row (0-2): `);
-                row = parseInt(input);
-                if(isNaN(row) || row < 0 || row > 2) {
-                    console.log("Invalid input, enter a number between 0-2");
-                }
-            } while(row < 0 || row > 2);
-            
-            //Column
-            do {
-                let input = prompt(`${activePlayer.getName()} turn, enter column (0-2): `);
-                column= parseInt(input);
-                if(isNaN(column) || column < 0 || column > 2) {
-                    console.log("Invalid input, enter a number between 0-2");
-                }
-            } while(column < 0 || column > 2);
-            
-            //Check if cell is not empty
-            if(board.getCell(row, column) === players[0].getToken() || board.getCell(row, column) === players[1].getToken()) {
-                console.log("Invalid cell, choose an empty (#) position");
-            }
+        //Check if cell is not empty
+        if(board.getCell(row, column) === players[0].getToken() || board.getCell(row, column) === players[1].getToken()) {
+            console.log("Invalid cell, choose an empty (#) position");
+            return;
+        }
         
-            // Loop until input is a valid cell
-        } while(board.getCell(row, column) === players[0].getToken() || board.getCell(row, column) === players[1].getToken());    
-      
         // Play move & switch player
         board.setCell(row, column, activePlayer.getToken());
         if(checkWinner() === true) {
@@ -322,7 +302,8 @@ function DOMController(gameController) {
         let rowIndex = buttonIndex[0];
         let columnIndex = buttonIndex[1];
 
-        // gameController.playRound();
+        gameController.playRound(rowIndex, columnIndex);
+        updateDOM();
     }
 
     return {
@@ -344,4 +325,3 @@ d.updateDOM(g);
 
 //To-do:
     // Add tie checker
-    //modify playRound() to take as many arguments as necesaries to convert the DOM click into a game turn
