@@ -121,8 +121,14 @@ function GameController() {
         // Play move 
         board.setCell(row, column, activePlayer.getToken());
         // Check winner or tie
-        if(checkWinner() === true) {}
-        else if (checkTie() === true) {}
+        if(checkWinner() === true) {
+            const gameFinishedEvent = new CustomEvent("gameFinished");
+            document.dispatchEvent(gameFinishedEvent);
+        }
+        else if (checkTie() === true) {
+            const gameFinishedEvent = new CustomEvent("gameFinished");
+            document.dispatchEvent(gameFinishedEvent);
+        }
         // Switch player
         else {
             switchActivePlayer();
@@ -362,4 +368,7 @@ let g = GameController();
 let d = DOMController(g);
 
 d.updateDOM(g);
-d.createPlayAgainButton();
+document.addEventListener("gameFinished", function() {
+    d.createPlayAgainButton();
+});
+
