@@ -118,13 +118,21 @@ function GameController() {
             return;
         }
         
-        // Play move & switch player
+        // Play move 
         board.setCell(row, column, activePlayer.getToken());
+        // Check winner or tie
         if(checkWinner() === true) {
             render();
             console.log("Winner: "+ getWinner());
         }
-        switchActivePlayer();
+        else if (checkTie() === true) {
+            render();
+            console.log("Tie!");
+        }
+        // Switch player
+        else {
+            switchActivePlayer();
+        }
     }
 
     const switchActivePlayer = () => {
@@ -216,6 +224,27 @@ function GameController() {
             
         // No winner found
         return false;
+    }
+
+    const checkTie = () => {
+        if(!_gameCompleted){
+            // Assume tie = true, until an empty cell is found
+            let flag = true;
+            for(let i = 0; i < 3; i++) {
+                for(let j = 0; j < 3; j++) {
+                    if(board.getCell(i, j) === "#") 
+                        flag = false;
+                }
+            }
+
+            // If flag remained true, game is tied
+            if(flag) {
+                _gameCompleted = true;
+                _gameTied = true;
+                return true;
+            }
+            else return false;
+        }
     }
 
     const getWinner = () => {
