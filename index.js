@@ -287,11 +287,14 @@ function DOMController(gameController) {
     //DOM elements
     let gameInfoDiv = document.getElementById("game-info");
     let boardDiv = document.getElementById("board");
+    let playAgainButton = document.getElementById("playAgain");
+
 
     const updateDOM = function() {
         //Clear DOM, by setting .board text content to an empty string
         gameInfoDiv.textContent = "";
         boardDiv.textContent = "";
+        if(playAgainButton !== null) playAgainButton.remove();
 
         //Get up-to-date board
         let board = gameController.getBoard();
@@ -346,11 +349,11 @@ function DOMController(gameController) {
     const createPlayAgainButton = () => {
         // Create element
         let button = document.createElement("button");
-        button.setAttribute("class", "playAgain");
+        button.setAttribute("id", "playAgain");
         button.innerText = "Play again";
         // Add event listener
-        button.addEventListener("click", function(){
-            console.log("Play again clicked");
+        button.addEventListener("click", function(event){
+            playGame();
         });
         //Append
         const container = document.getElementById("container");
@@ -363,12 +366,23 @@ function DOMController(gameController) {
     };
 }
 
-// Program start here: 
+// Program start here:
+// Set up game 
 let g = GameController();
 let d = DOMController(g);
 
-d.updateDOM(g);
 document.addEventListener("gameFinished", function() {
     d.createPlayAgainButton();
 });
+
+function playGame() {
+    g = GameController();
+    d = DOMController(g);
+    
+    d.updateDOM();
+};
+
+playGame();
+ 
+
 
