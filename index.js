@@ -190,7 +190,7 @@ function GameController() {
         
         //Check diagonals (manually set for a 3x3 board)
         let diagonal1String = "" + board.getCell(0,0) + board.getCell(1,1) + board.getCell(2,2);
-        let diagonal2String = "" + board.getCell(2,0) + board.getCell(1,1) + board.getCell(2,0);
+        let diagonal2String = "" + board.getCell(2,0) + board.getCell(1,1) + board.getCell(0,2);
             //Diagonal 1
             if(diagonal1String === player0WinString){
                 _winner = players[0];
