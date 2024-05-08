@@ -103,6 +103,8 @@ function GameController() {
     
     let activePlayer = players[0];
     let _winner = undefined;
+    let _gameCompleted = false;
+    let _gameTied = false;
     let _gameWon = false;
 
     const playRound = () => {
@@ -139,7 +141,6 @@ function GameController() {
         // Play move & switch player
         board.setCell(row, column, activePlayer.getToken());
         if(checkWinner() === true) {
-            _gameWon = true;
             render();
             console.log("Winner: "+ getWinner());
         }
@@ -169,10 +170,14 @@ function GameController() {
 
             if(rowString === player0WinString){
                 _winner = players[0];
+                _gameWon = true;
+                _gameCompleted = true;
                 return true;
             }
             else if(rowString === player1WinString){
                 _winner = players[1];
+                _gameWon = true;
+                _gameCompleted = true;
                 return true;
             }
         }
@@ -187,10 +192,14 @@ function GameController() {
 
             if(columnString === player0WinString){
                 _winner = players[0];
+                _gameWon = true;
+                _gameCompleted = true;
                 return true;
             }
             else if(columnString === player1WinString){
                 _winner = players[1];
+                _gameWon = true;
+                _gameCompleted = true;
                 return true;
             }
         }
@@ -201,19 +210,27 @@ function GameController() {
             //Diagonal 1
             if(diagonal1String === player0WinString){
                 _winner = players[0];
+                _gameWon = true;
+                _gameCompleted = true;
                 return true;
             }
             else if(diagonal1String === player1WinString){
                 _winner = players[1];
+                _gameWon = true;
+                _gameCompleted = true;
                 return true;
             }
             //Diagonal 2
             if(diagonal2String === player0WinString){
                 _winner = players[0];
+                _gameWon = true;
+                _gameCompleted = true;
                 return true;
             }
             else if(diagonal2String === player1WinString){
                 _winner = players[1];
+                _gameWon = true;
+                _gameCompleted = true;
                 return true;
             }
             
@@ -232,6 +249,14 @@ function GameController() {
         return _gameWon;
     }
 
+    const isCompleted = () => {
+        return _gameCompleted;
+    }
+
+    const isTied = () => {
+        return _gameTied;
+    }
+
     const getBoard = () => {
         return board;
     }
@@ -244,6 +269,8 @@ function GameController() {
         playRound,
         render,
         isWon,
+        isCompleted, 
+        isTied,
         getBoard,
         getActivePlayer,
     };
@@ -295,7 +322,7 @@ function DOMController(gameController) {
         let rowIndex = buttonIndex[0];
         let columnIndex = buttonIndex[1];
 
-        gameController.playRound();
+        // gameController.playRound();
     }
 
     return {
@@ -315,3 +342,6 @@ let d = DOMController(g);
 
 d.updateDOM(g);
 
+//To-do:
+    // Add tie checker
+    //modify playRound() to take as many arguments as necesaries to convert the DOM click into a game turn
