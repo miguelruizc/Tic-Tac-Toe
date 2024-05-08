@@ -121,14 +121,8 @@ function GameController() {
         // Play move 
         board.setCell(row, column, activePlayer.getToken());
         // Check winner or tie
-        if(checkWinner() === true) {
-            render();
-            console.log("Winner: "+ getWinner());
-        }
-        else if (checkTie() === true) {
-            render();
-            console.log("Tie!");
-        }
+        if(checkWinner() === true) {}
+        else if (checkTie() === true) {}
         // Switch player
         else {
             switchActivePlayer();
@@ -137,10 +131,6 @@ function GameController() {
 
     const switchActivePlayer = () => {
         activePlayer = (activePlayer === players[0]) ? players[1] : players[0];
-    }
-
-    const render = () => {
-        board.render();
     }
 
     const checkWinner = () => {
@@ -276,10 +266,10 @@ function GameController() {
 
     return {
         playRound,
-        render,
         isWon,
         isCompleted, 
         isTied,
+        getWinner,
         getBoard,
         getActivePlayer,
     };
@@ -303,8 +293,17 @@ function DOMController(gameController) {
         //Get up-to-date active player
         let activePlayer = gameController.getActivePlayer();
 
-        //Render active player in #game-info
-        gameInfoDiv.textContent = `Turn: ${activePlayer.getName()}(${activePlayer.getToken()})`;
+        //Render game info (active player or game status)
+        if(!gameController.isCompleted()) {
+            gameInfoDiv.textContent = `Turn: ${activePlayer.getName()}(${activePlayer.getToken()})`;
+        }
+        else if(gameController.isWon()) {
+            gameInfoDiv.textContent = `Winner: ${gameController.getWinner()}!`;
+        }
+        else if(gameController.isTied()) {
+            gameInfoDiv.textContent = "Tie!";
+        }
+  
         
         //Render board with buttons
         let rows = board.getNumberOfRows();
@@ -331,7 +330,10 @@ function DOMController(gameController) {
         let rowIndex = buttonIndex[0];
         let columnIndex = buttonIndex[1];
 
-        gameController.playRound(rowIndex, columnIndex);
+        if(!gameController.isCompleted()) {
+            gameController.playRound(rowIndex, columnIndex);
+        }
+
         updateDOM();
     }
 
@@ -344,13 +346,4 @@ function DOMController(gameController) {
 let g = GameController();
 let d = DOMController(g);
 
-//Game loop
-// do {
-//     g.render();
-//     g.playRound();
-// } while (!g.isWon());
-
 d.updateDOM(g);
-
-//To-do:
-    // Add tie checker
